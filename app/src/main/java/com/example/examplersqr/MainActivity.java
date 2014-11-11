@@ -163,12 +163,12 @@ public class MainActivity extends ActionBarActivity {
                 // TODO: Enhance with check for scrolled distance and state
                 if (dy > 0) {
                     if (qrBar.getVisibility() == View.VISIBLE)
-                        hideCommToolBar();
+                        hideQRBar();
 
                 } else {
 
                     if (qrBar.getVisibility() == View.GONE)
-                        showCommToolBar();
+                        showQRBar();
                 }
             }
         });
@@ -178,12 +178,12 @@ public class MainActivity extends ActionBarActivity {
         mRecycler.setAdapter(mAdapter);
     }
 
-    private void hideCommToolBar() {
+    private void hideQRBar() {
         qrBar.startAnimation(outAnim);
         qrBar.setVisibility(View.GONE);
     }
 
-    private void showCommToolBar() {
+    private void showQRBar() {
         qrBar.startAnimation(inAnim);
         qrBar.setVisibility(View.VISIBLE);
     }
