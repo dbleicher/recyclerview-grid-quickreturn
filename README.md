@@ -11,13 +11,16 @@ using a SwipeRefreshLayout.
 
 The idea is that the QR view should not cover the top items in the RV.  This is accomplished with a hack that
 adjusts the marginTop of any cells in the top row of the RV.  I'm sure there's a better way, so if you find it, please explain it to me!  :-)
- -It's been suggested that I look into using ItemDecorators instead.
 
 By the way, the cells within the layout are CardViews, and use the card_view:cardUseCompatPadding="true" attribute to display properly on Lollipop.  
 
 ![rsqr](https://cloud.githubusercontent.com/assets/3764409/4998140/88d948ee-69a3-11e4-95ba-076da0a6ad95.gif)
 
-Thanks!
+TODO
+-----
+It's been suggested that I look into using ItemDecorators instead of adjusting cell margins during onBind.
+
+Need to address issue of inserting items at top of grid.
 
 License
 ========
