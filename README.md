@@ -12,6 +12,8 @@ using a SwipeRefreshLayout.
 The idea is that the QR view should not cover the top items in the RV.  This is accomplished with a hack that
 adjusts the marginTop of any cells in the top row of the RV.  I'm sure there's a better way, so if you find it, please explain it to me!  :-)
 
+![rsqr](https://cloud.githubusercontent.com/assets/3764409/4998140/88d948ee-69a3-11e4-95ba-076da0a6ad95.gif)
+
 Thanks!
 
 License
