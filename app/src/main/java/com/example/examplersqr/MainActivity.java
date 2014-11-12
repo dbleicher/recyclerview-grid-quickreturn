@@ -60,6 +60,11 @@ public class MainActivity extends ActionBarActivity {
     // For randomizing titles across our dataset
     private Random randy = new Random();
 
+    // In production, better to get this from a "values.xml" resource
+    // in a res folder appropriate to screen size / orientation
+    private static final int COLUMN_COUNT = 2;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,13 +80,15 @@ public class MainActivity extends ActionBarActivity {
         qrBar = (LinearLayout) findViewById(R.id.myQRBar);
 
         tvQRBarTitle = (TextView) findViewById(R.id.tvQRBarTitle);
+        tvQRBarTitle.setText("Tap to add item at top...");
         tvQRBarTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "You Clicked Me!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Added a Title!", Toast.LENGTH_SHORT).show();
+                myDataset.add(0, someTitles[randy.nextInt(someTitles.length)]);
+                mAdapter.notifyItemRangeChanged(0, COLUMN_COUNT+1);
             }
         });
-        tvQRBarTitle.setText("Click me if you like...");
 
 
         //////////////////////////////
@@ -121,11 +128,7 @@ public class MainActivity extends ActionBarActivity {
         //////////////////////////////////////////////
         mRecycler = (RecyclerView) findViewById(R.id.rvExampleGrid);
 
-        // In production, better to get this from a "values.xml" resource
-        // in a res folder appropriate to screen size / orientation
-        int columnCount = 2;
-
-        mSGLM = new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
+        mSGLM = new StaggeredGridLayoutManager(COLUMN_COUNT, StaggeredGridLayoutManager.VERTICAL);
         mRecycler.setLayoutManager(mSGLM);
 
         //////////////////////////////
@@ -144,6 +147,7 @@ public class MainActivity extends ActionBarActivity {
         //  Setup the RecyclerView Scroll Listener //
         /////////////////////////////////////////////
         mRecycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
+
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
 
@@ -160,12 +164,13 @@ public class MainActivity extends ActionBarActivity {
                 swiper.setEnabled(topRowVerticalPosition >= 0);
 
                 // Simple check if moved vertically.
-                // TODO: Enhance with check for scrolled distance and state
-                if (dy > 0) {
+                // React to scrolls of a minimum amount (3, in this case)
+                if (dy > 3) {
+
                     if (qrBar.getVisibility() == View.VISIBLE)
                         hideQRBar();
 
-                } else {
+                } else if (dy < -3) {
 
                     if (qrBar.getVisibility() == View.GONE)
                         showQRBar();
