@@ -2,8 +2,6 @@ package com.example.examplersqr;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,26 +56,12 @@ public class RVAdapter
 
 
     private ArrayList<String> mDataset;
-    private static Context mContext;
+    private Context mContext;
 
-    private int columnCount;
-    private int qrBarHeight;
-    private StaggeredGridLayoutManager.LayoutParams viewLayoutParams;
 
     public RVAdapter (Context context, ArrayList<String> myDataset) {
         this.mDataset = myDataset;
         this.mContext = context;
-
-        // In production, better to get this from a "values.xml" resource
-        // in a res folder appropriate to screen size / orientation
-        columnCount = 2;
-
-        // Set the QRBar Height to that of the ActionBar
-        TypedValue tv = new TypedValue();
-        if (mContext.getTheme().resolveAttribute(R.attr.actionBarSize, tv, true)) {
-            qrBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, mContext.getResources().getDisplayMetrics());
-        }
-
     }
 
     @Override
@@ -99,24 +83,6 @@ public class RVAdapter
 
     @Override
     public void onBindViewHolder(RVAdapter.ViewHolder holder, int position) {
-
-        //////////////////////////////////////////////
-        // Here's how we set the top margin of
-        // all cells in the top row of the display.
-        //  1. Get the layoutParams for the cell
-        //  2. If cell's position is less than columnCount (top row)
-        //      Set the cell's top margin to the height of the QRBar
-        //      Otherwise, set it to 0
-        //  3. Apply the params to the cell
-        /////////////////////////////////////////////
-        viewLayoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
-        if (position < columnCount) {
-            viewLayoutParams.setMargins(0, qrBarHeight, 0, 0);
-            holder.itemView.setLayoutParams(viewLayoutParams);
-        } else {
-            viewLayoutParams.setMargins(0, 0, 0, 0);
-            holder.itemView.setLayoutParams(viewLayoutParams);
-        }
 
         // The rest is normal onBindViewHolder behavior
         // Just set the fields to their values

@@ -6,15 +6,16 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -60,11 +61,9 @@ public class MainActivity extends ActionBarActivity {
     // For randomizing titles across our dataset
     private Random randy = new Random();
 
-    // In production, better to get this from a "values.xml" resource
-    // in a res folder appropriate to screen size / orientation
-    private static final int COLUMN_COUNT = 2;
-
-
+    // See QRBar setup below
+    private int columnCount;
+    private int qrBarHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,20 +75,26 @@ public class MainActivity extends ActionBarActivity {
         //////////////////////
         inAnim = AnimationUtils.loadAnimation(this, R.anim.abc_slide_in_top);
         outAnim = AnimationUtils.loadAnimation(this,R.anim.abc_slide_out_top);
-
         qrBar = (LinearLayout) findViewById(R.id.myQRBar);
+
+        // In production, better to get this from a "values.xml" resource
+        // in a res folder appropriate to screen size / orientation
+        columnCount = 2;
+
+        // Set the QRBar Height to that of the ActionBar
+        TypedValue tv = new TypedValue();
+        if (getTheme().resolveAttribute(R.attr.actionBarSize, tv, true)) {
+            qrBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+        }
 
         tvQRBarTitle = (TextView) findViewById(R.id.tvQRBarTitle);
         tvQRBarTitle.setText("Tap to add item at top...");
         tvQRBarTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Added a Title!", Toast.LENGTH_SHORT).show();
-                myDataset.add(0, someTitles[randy.nextInt(someTitles.length)]);
-                mAdapter.notifyItemRangeChanged(0, COLUMN_COUNT+1);
+                addItemAtPosition(0, "NEW CARD ADDED ON: "+new Date().toString());
             }
         });
-
 
         //////////////////////////////
         //  Setup Swipe To Refresh  //
@@ -127,8 +132,10 @@ public class MainActivity extends ActionBarActivity {
         //  Grab the StaggeredGrid & Layout Manager //
         //////////////////////////////////////////////
         mRecycler = (RecyclerView) findViewById(R.id.rvExampleGrid);
+        mRecycler.addItemDecoration(new QRBarDecoration(columnCount, qrBarHeight));
 
-        mSGLM = new StaggeredGridLayoutManager(COLUMN_COUNT, StaggeredGridLayoutManager.VERTICAL);
+        mSGLM = new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
+
         mRecycler.setLayoutManager(mSGLM);
 
         //////////////////////////////
@@ -150,7 +157,7 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-
+                super.onScrollStateChanged(recyclerView, newState);
             }
 
             @Override
@@ -192,5 +199,17 @@ public class MainActivity extends ActionBarActivity {
         qrBar.startAnimation(inAnim);
         qrBar.setVisibility(View.VISIBLE);
     }
+
+    /**
+     * Adds an item at postion, and scrolls to that position.
+     * @param position index in dataset
+     * @param item to add
+     */
+    public void addItemAtPosition(int position, String item) {
+        myDataset.add(position, item);
+        mAdapter.notifyItemInserted(position);
+        mSGLM.scrollToPosition(position);
+    }
+
 
 }
