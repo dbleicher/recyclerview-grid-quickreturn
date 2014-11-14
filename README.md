@@ -1,5 +1,4 @@
-recyclerview-grid-quickreturn
-=============================
+#recyclerview-grid-quickreturn
 
 An example of implementing QuickReturn on a RecyclerView 
 using a StaggeredGridLayoutManager to display CardViews inside a SwipeRefreshLayout.
@@ -9,21 +8,20 @@ implementing the QuickReturn pattern with a RecyclerView that uses the
 StaggeredGridLayoutManager.  For grins, the whole thing also supports Pull-to-Refresh
 using a SwipeRefreshLayout.
 
-The idea is that the QR view should not cover the top items in the RV.  This is accomplished with a hack that
-adjusts the marginTop of any cells in the top row of the RV.  I'm sure there's a better way, so if you find it, please explain it to me!  :-)
+The idea is that the QR view should not cover the top items in the RV.  This is now accomplished with a custom
+(but trivial) ItemDecoration.  As a result, the adapter and layoutmanager are plain vanilla.  I'm sure there's
+a better way, so if you find it, please explain it to me!  :-)
 
-By the way, the cells within the layout are CardViews, and use the card_view:cardUseCompatPadding="true" attribute to display properly on Lollipop.  
+By the way, the cells within the layout are CardViews, and use the `card_view:cardUseCompatPadding="true"` attribute to display properly on Lollipop.
 
 ![rsqr](https://cloud.githubusercontent.com/assets/3764409/4998140/88d948ee-69a3-11e4-95ba-076da0a6ad95.gif)
 
-TODO
------
-It's been suggested that I look into using ItemDecorators instead of adjusting cell margins during onBind.
+##TODO
+1. (2014-11-14) ~~It's been suggested that I look into using ItemDecoration instead of adjusting cell margins during onBind.~~
+2. Need to address issue of inserting items at top of grid.
 
-Need to address issue of inserting items at top of grid.
 
-License
-========
+##License
 
 ```
 Copyright 2014 David Bleicher
