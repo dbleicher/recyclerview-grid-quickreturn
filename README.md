@@ -14,6 +14,10 @@ a better way, so if you find it, please explain it to me!  :-)
 
 By the way, the cells within the layout are CardViews, and use the `card_view:cardUseCompatPadding="true"` attribute to display properly on Lollipop.
 
+Here's what it looks like with expandable cells:  https://www.youtube.com/watch?v=ulf4v3Qzn4o
+
+Here's an older animation:
+
 ![rsqr](https://cloud.githubusercontent.com/assets/3764409/4998140/88d948ee-69a3-11e4-95ba-076da0a6ad95.gif)
 
 ##TODO
