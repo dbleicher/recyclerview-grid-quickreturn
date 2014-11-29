@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +56,10 @@ public class RVAdapter
     private static Random randy = new Random();
 
 
+    // Hold the position of the expanded item
+    private int expandedPosition = -1;
+
+
     private ArrayList<String> mDataset;
     private Context mContext;
 
@@ -82,25 +87,38 @@ public class RVAdapter
     }
 
     @Override
+    public int getItemCount() {
+        return mDataset.size();
+    }
+
+    @Override
     public void onBindViewHolder(RVAdapter.ViewHolder holder, int position) {
 
-        // The rest is normal onBindViewHolder behavior
-        // Just set the fields to their values
         int colorIndex = randy.nextInt(bgColors.length);
         holder.tvTitle.setText(mDataset.get(position));
         holder.tvTitle.setBackgroundColor(bgColors[colorIndex]);
         holder.tvSubTitle.setBackgroundColor(sbgColors[colorIndex]);
-    }
 
-    @Override
-    public int getItemCount() {
-        return mDataset.size();
+        if (position == expandedPosition) {
+            holder.llExpandArea.setVisibility(View.VISIBLE);
+        } else {
+            holder.llExpandArea.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onClick(View view) {
         ViewHolder holder = (ViewHolder) view.getTag();
         String theString = mDataset.get(holder.getPosition());
+
+        // Check for an expanded view, collapse if you find one
+        if (expandedPosition >= 0) {
+            int prev = expandedPosition;
+            notifyItemChanged(prev);
+        }
+        // Set the current position to "expanded"
+        expandedPosition = holder.getPosition();
+        notifyItemChanged(expandedPosition);
 
         Toast.makeText(mContext, "Clicked: "+theString, Toast.LENGTH_SHORT).show();
     }
@@ -112,12 +130,14 @@ public class RVAdapter
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle;
         TextView tvSubTitle;
+        LinearLayout llExpandArea;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
             tvSubTitle = (TextView) itemView.findViewById(R.id.tvSubTitle);
+            llExpandArea = (LinearLayout) itemView.findViewById(R.id.llExpandArea);
         }
     }
 }
