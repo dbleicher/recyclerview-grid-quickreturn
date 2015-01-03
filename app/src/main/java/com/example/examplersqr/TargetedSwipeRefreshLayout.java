@@ -8,7 +8,20 @@ import android.view.View;
 import android.widget.AbsListView;
 
 /**
- * Created by davidbleicher on 1/2/15.
+ * Extended SwipeRefreshLayout (SRL) that let's you specify the scrollable view to use.
+ *
+ * The standard SwipeRefreshLayout, which this extends, requires that the scrollable view
+ * is a --direct-- descendant (and the only descendant).  It does this in order to know which
+ * child view to ask "Can you scroll up?" to determine if it should run the refresh or just allow
+ * the child to scroll.
+ *
+ * Sometimes, however, you want to have multiple views inside the layout.  For example, you
+ * might want a FrameLayout with both a toolbar and a listview/recyclerview to
+ * hold the content.  Use this class to place any number of views withing the SRL, and tell this
+ * class which one of them is the "scrollable" view.
+ *
+ * Created by David Bleicher on 1/2/15.
+ *
  */
 public class TargetedSwipeRefreshLayout extends SwipeRefreshLayout {
     private View myScrollableView = null;
