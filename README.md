@@ -26,7 +26,7 @@ Here's an older animation:
 
 ##TODO
 1. (2014-11-14) ~~It's been suggested that I look into using ItemDecoration instead of adjusting cell margins during onBind.~~
-2. Need to address issue of inserting items at top of grid.
+2. (2015-03-18) Fixed using recyclerview-v7 R22 ~~Need to address issue of inserting items at top of grid.~~
 
 
 ##License
