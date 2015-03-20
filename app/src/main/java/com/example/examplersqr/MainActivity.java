@@ -133,6 +133,7 @@ public class MainActivity extends ActionBarActivity {
         //////////////////////////////////////////////
         mRecycler = (RecyclerView) findViewById(R.id.rvExampleGrid);
         mRecycler.addItemDecoration(new QRBarDecoration(columnCount, qrBarHeight));
+        // mRecycler.addItemDecoration(new OverlapDecoration());
 
         mSGLM = new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
 
@@ -207,6 +208,18 @@ public class MainActivity extends ActionBarActivity {
         myDataset.add(position, item);
         mAdapter.notifyItemInserted(position);
         mSGLM.scrollToPosition(position);
+
+        // Items added to the top row? Better invalidate the decorator.
+        // Delay to ensure that the previous layout pass has completed.
+        // NO LONGER REQUIRED:  as of R22 support libs
+//        if (position < columnCount) {
+//            new Handler().post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    mRecycler.invalidateItemDecorations();
+//                }
+//            });
+//        }
     }
 
 
