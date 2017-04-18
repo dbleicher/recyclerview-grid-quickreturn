@@ -1,4 +1,4 @@
-#recyclerview-grid-quickreturn
+# recyclerview-grid-quickreturn
 
 An example of implementing QuickReturn on a RecyclerView 
 using a StaggeredGridLayoutManager to display CardViews inside a SwipeRefreshLayout.
@@ -19,17 +19,17 @@ Here's an older animation:
 
 ![rsqr](https://cloud.githubusercontent.com/assets/3764409/4998140/88d948ee-69a3-11e4-95ba-076da0a6ad95.gif)
 
-##Changes
+## Changes
 1. (2015-1-2) Added TargetedSwipeRefreshLayout (TSRL) to permit multiple views within the SwipeRefreshLayout.
 1. (2015-1-2) Removed topview detection from onScrollListener (no longer needed with TSRL).
 2. (2014-11-14) Modified the spacing hack to use an ItemDecorator (cleaner approach).
 
-##TODO
+## TODO
 1. (2014-11-14) ~~It's been suggested that I look into using ItemDecoration instead of adjusting cell margins during onBind.~~
 2. (2015-03-18) Fixed using recyclerview-v7 R22 ~~Need to address issue of inserting items at top of grid.~~
 
 
-##License
+## License
 
 ```
 Copyright 2014-2015 David Bleicher
